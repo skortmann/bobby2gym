@@ -1,0 +1,30 @@
+# this is a testcase of yaml file and the default of train_test_dqn_da_id
+number_runs:        1
+use_wandb:          True
+verbose:            1
+seed:               100
+hour_horizon:       36
+days_per_episode:   14
+functional_test:    True
+milp_comparison:    False
+environment:
+  battery_capacity:   20_000
+  battery_power:      10_000
+  battery_price:      3
+  num_actions:        5
+  standby_loss:       0.99
+  degradation:        True
+  calc_eff:           True
+  price_track:        'true'
+  resolution:         'QH'
+  seed: null
+  train_data_name:    'DE_DA_QH_ID_train_adjusted_010_090.csv' # no '/', file in processed data
+  test_data_name:     'DE_DA_QH_ID_test_adjusted_010_090.csv'  # no '/', file in processed data
+total_episodes:       1_000
+dqn_kwargs:
+  batch_size:         32
+  gamma:              0.997
+eval_callback:      True
+delta_ep_eval_call: 100
+ep_per_eval_call:   100
+ep_eval_policy:     100

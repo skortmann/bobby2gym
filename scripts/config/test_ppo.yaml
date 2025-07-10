@@ -1,0 +1,92 @@
+# this file is used to configure the training of the PPO agent for MILP comparison
+project: function_test_ppo
+program: scripts/train_test_ppo_da_id_wandb.py
+method: random  # random, grid or bayesian
+metric:
+  goal: maximize # 'maximize' or 'minimize'
+  name: milp_eval_total_reward_best_model
+run_cap: 1
+parameters:
+  directory:
+    value: 'test'
+  subdirectory:
+    value: 'test_sweep'
+  use_wandb:
+    value: True
+  verbose:
+    value: 0
+  seed:
+    value: 100
+  hour_horizon:
+    # TODO: Best practices for yaml description
+    # [int] what can be seen by agent
+    value: 36
+  days_per_episode:
+    value: 2
+  da_reward_at_dec:
+    value: False
+  total_episodes:
+    value: 60
+  environment:
+    parameters:
+      battery_capacity:
+        value: 20000
+      battery_power:
+        value: 10000
+      battery_price:
+        # Unit: (€/kWh)
+        value: 3
+      num_actions:
+        value: 7
+      seed:
+        value: 100
+      standby_loss:
+        value: 0.99 # for MILP comparison
+      degradation:
+        value: True # for MILP comparison
+      calc_eff:
+        value: True # for MILP comparison
+      resolution:
+        value: 'QH'
+      train_data_name:
+        value: 'DE_DA_QH_ID_train_adjusted_010_090.csv' # no '/' in front of the path
+      test_data_name:
+        value: 'DE_DA_QH_ID_test_adjusted_010_090.csv'  # no '/' in front of the path
+  ppo_kwargs:
+    parameters:
+      learning_rate:
+        value: 0.0001616
+      gamma:
+        value: 0.9996
+      clip_range:
+        value: 0.2  # Clipping parameter for PPO
+      n_steps:
+        value: 2048  # Number of steps per rollout
+      batch_size:
+        value: 64
+      gae_lambda:
+        value: 0.95  # GAE parameter
+      ent_coef:
+        value: 0.01  # Entropy coefficient
+      vf_coef:
+        value: 0.5  # Value function loss coefficient
+      max_grad_norm:
+        value: 0.5  # Maximum gradient norm
+      device:
+        value: 'auto'  # for GPU or CPU usage
+  eval_callback:
+    value: True
+  delta_ep_eval_call:
+    value: 5
+  ep_per_eval_call:
+    value: 5
+  ep_eval_policy:
+    value: 20
+  max_no_improvement_evals:
+    value: 4
+  verbose_lr_schedule:
+    value: 1
+  min_lr:
+    value: 0.0000003396
+  lr_reduce_factor:
+    value: 0.3741

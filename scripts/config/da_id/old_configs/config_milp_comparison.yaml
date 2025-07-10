@@ -1,0 +1,34 @@
+# this file is used to configure the training of the DQN agent for MILP comparison
+number_runs:        1
+use_wandb:          True
+verbose:            0
+seed:               100
+hour_horizon:         36
+days_per_episode:     14
+functional_test:      False
+milp_comparison:      True
+da_reward_at_dec:     False
+environment:
+  battery_capacity:   20_000
+  battery_power:      10_000
+  battery_price:      3
+  num_actions:        5
+  standby_loss:       1.0 # for MILP comparison
+  degradation:        False # for MILP comparison
+  calc_eff:           False # for MILP comparison
+  price_track:        'true'
+  resolution:         'QH'
+  seed:               null
+  train_data_name:    'DE_DA_QH_ID_train_adjusted_010_090.csv' # no '/' in front of the path
+  test_data_name:     'DE_DA_QH_ID_test_adjusted_010_090.csv'  # no '/' in front of the path
+total_episodes:     14_000
+dqn_kwargs:
+  batch_size:           32
+  gamma:                0.998
+  exploration_fraction: 0.4
+  device:               'auto'  # just for GPU or CPU usage.
+  tau:                  0.2
+eval_callback:      True
+delta_ep_eval_call: 100
+ep_per_eval_call:   100
+ep_eval_policy:     1_000

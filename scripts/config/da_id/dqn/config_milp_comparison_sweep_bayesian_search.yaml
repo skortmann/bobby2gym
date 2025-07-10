@@ -1,0 +1,102 @@
+# this file is used to configure the training of the DQN agent for MILP comparison
+project: Multi_BESS_hyperparameter_tuning_bayesian_search
+program: scripts/train_test_dqn_da_id_wandb.py
+method: bayes  # random, grid or bayes
+metric:
+  goal: maximize # 'maximize' or 'minimize'
+  name: milp_eval_total_profit_best_model
+run_cap: 20
+parameters:
+  directory:
+    value: 'sweep_bayesian_search'
+  subdirectory:
+    value: 'sweep_milp_05_08'
+  use_wandb:
+    value: True
+  verbose:
+    value: 0
+  seed:
+    value: 100
+  hour_horizon:
+    value: 36
+  days_per_episode:
+    distribution: 'int_uniform'
+    min: 10
+    max: 21
+  da_reward_at_dec:
+    value: False
+  total_episodes:
+    distribution: 'int_uniform'
+    min: 2000   # 6000
+    max: 8000  # 12000
+  environment:
+    parameters:
+      battery_capacity:
+        value: 20000
+      battery_power:
+        value: 10000
+      battery_price:
+        value: 3
+      num_actions:
+        values: [5, 7, 9]
+      seed:
+        value: 100
+      standby_loss:
+        value: 1.0 # for MILP comparison
+      degradation:
+        value: False # for MILP comparison
+      calc_eff:
+        value: False # for MILP comparison
+      resolution:
+        value: 'QH'
+      train_data_name:
+        value: 'DE_DA_QH_ID_train_adjusted_010_090.csv' # no '/' in front of the path
+      test_data_name:
+        value: 'DE_DA_QH_ID_test_adjusted_010_090.csv'  # no '/' in front of the path
+  dqn_kwargs:
+    parameters:
+      learning_rate:
+        distribution: 'log_uniform_values'
+        min: 0.000001
+        max: 0.0005
+      gamma:
+        distribution: 'log_uniform_values'
+        min: 0.999
+        max: 0.99999
+      tau:
+        distribution: 'log_uniform_values'
+        min: 0.095
+        max: 0.3
+      exploration_fraction:
+        distribution: 'uniform'
+        min: 0.1
+        max: 0.5
+      batch_size:
+        values: [16, 32, 64]
+      device:
+        value: 'auto'  # just for GPU or CPU usage.
+  eval_callback:
+    value: True
+  delta_ep_eval_call:
+    value: 80
+  ep_per_eval_call:
+    value: 40
+  ep_eval_policy:
+    value: 1000
+  max_no_improvement_evals:
+    distribution: 'int_uniform'
+    min: 10
+    max: 20
+  verbose_lr_schedule:
+    value: 1
+  min_lr:
+    distribution: 'log_uniform_values'
+    min: 0.0000000001
+    max: 0.0000001
+  lr_reduce_factor:
+    distribution: 'uniform'
+    min: 0.1
+    max: 0.8
+early_terminate:
+  type: hyperband
+  min_iter: 3

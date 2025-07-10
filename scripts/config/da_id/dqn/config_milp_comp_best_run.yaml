@@ -1,0 +1,81 @@
+# this file is used to configure the training of the DQN agent for MILP comparison
+project: Results_MILP_comparison
+program: scripts/train_test_dqn_da_id_wandb.py
+method: random  # random, grid or bayesian
+metric:
+  goal: maximize # 'maximize' or 'minimize'
+  name: milp_eval_total_profit_best_model
+run_cap: 20
+parameters:
+  directory:
+    value: 'sweep'
+  subdirectory:
+    value: 'run_results_05_28'
+  use_wandb:
+    value: True
+  verbose:
+    value: 0
+  seed:
+    value: 100
+  hour_horizon:
+    value: 36
+  days_per_episode:
+    value: 14
+  da_reward_at_dec:
+    value: False
+  total_episodes:
+    value: 10 # 7848
+  environment:
+    parameters:
+      battery_capacity:
+        value: 20000
+      battery_power:
+        value: 10000
+      battery_price:
+        value: 3
+      num_actions:
+        value: 5
+      seed:
+        value: 100
+      standby_loss:
+        value: 1.0 # for MILP comparison
+      degradation:
+        value: False # for MILP comparison
+      calc_eff:
+        value: False # for MILP comparison
+      resolution:
+        value: 'QH'
+      train_data_name:
+        value: 'DE_DA_QH_ID_train_adjusted_010_090.csv' # no '/' in front of the path
+      test_data_name:
+        value: 'DE_DA_QH_ID_test_adjusted_010_090.csv'  # no '/' in front of the path
+  dqn_kwargs:
+    parameters:
+      learning_rate:
+        value: 0.00027006429053179375
+      gamma:
+        value: 0.9994487287916956
+      tau:
+        value: 0.25833971426420627
+      exploration_fraction:
+        value: 0.35231372635686065
+      batch_size:
+        value: 64
+      device:
+        value: 'gpu'  # just for GPU or CPU usage.
+  eval_callback:
+    value: True
+  delta_ep_eval_call:
+    value: 80
+  ep_per_eval_call:
+    value: 40
+  ep_eval_policy:
+    value: 1000
+  max_no_improvement_evals:
+    value: 16
+  verbose_lr_schedule:
+    value: 1
+  min_lr:
+    value: 0.0000000377933506841166
+  lr_reduce_factor:
+    value: 0.21619681002063212

@@ -1,0 +1,33 @@
+# this is a testcase of yaml file for MILP comparison
+number_runs: 1
+use_wandb: True
+verbose: 0
+seed:               100
+hour_horizon:       36
+days_per_episode:   14
+modus:             'milp_test'
+da_reward_at_dec:   False
+environment:
+  battery_capacity:   20_000
+  battery_power:      10_000
+  battery_price:      3
+  num_actions:        5
+  standby_loss:       0.99
+  degradation:        True
+  calc_eff:           True
+  price_track:        'true'
+  resolution:         'QH'
+  seed:               null
+  train_data_name:    'DE_DA_QH_ID_train_adjusted_010_090.csv' # no '/' in front of the path
+  test_data_name:     'DE_DA_QH_ID_test_adjusted_010_090.csv'  # no '/' in front of the path
+total_episodes:     100
+dqn_kwargs:
+  batch_size:           32
+  gamma:                0.9998
+  exploration_fraction: 0.25
+  device:               'auto'
+  tau:                  0.1
+eval_callback:      True
+delta_ep_eval_call: 100
+ep_per_eval_call:   10
+ep_eval_policy:     10
